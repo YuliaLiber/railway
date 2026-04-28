@@ -129,3 +129,22 @@ code {
   gap: 16px;
   padding: 20px;
 }
+
+.searchInput {
+  width: 60%;
+  padding: 10px 12px;
+  margin: 20px auto;
+  display: block;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  outline: none;
+  font-size: 14px;
+  background: var(--bg);
+  color: var(--text);
+  transition: 0.2s;
+}
+
+.searchInput:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 2px var(--accent-bg);
+}
