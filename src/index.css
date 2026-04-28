@@ -122,3 +122,10 @@ code {
 .trainCard:hover {
   transform: translateY(-5px);
 }
+
+.trainGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 16px;
+  padding: 20px;
+}
