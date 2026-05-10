@@ -1,3 +1,4 @@
+import { useState } from "react";
 export default function WagonSelector() {
 
   const wagons = [
@@ -9,6 +10,11 @@ export default function WagonSelector() {
   { id: 6, name: "VIP" }
 ];
 
+function handleClick(id) {
+    setActive(id);
+    onSelect(id);
+}
+
   return (
     <div>
       <h3>🚃 Wagons</h3>
@@ -18,15 +24,16 @@ export default function WagonSelector() {
           <button 
           key={w}
              style={{
-              padding: "10px 14px",
+               padding: "10px 14px",
               borderRadius: "8px",
               border: "1px solid #ccc",
-              background: "white",
               cursor: "pointer",
+              background: active === w.id ? "#aa3bff" : "white",
+              color: active === w.id ? "white" : "black",
               transition: "0.2s"
             }}
           >
-            Wagon {w}
+             {w.name} {w.id}
           </button>
         ))}
       </div>
