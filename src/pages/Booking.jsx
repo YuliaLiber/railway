@@ -12,7 +12,7 @@ export default function Booking() {
   saveBooking({
     trainId,
     wagon,
-    seat: selectedSeat
+    seat: 1
   });
 }
 
