@@ -5,18 +5,19 @@ export default function Seat({ number, selected, reserved, onClick }) {
       onClick={() => !reserved && onClick(number)}
       disabled={reserved}
       style={{
-        width: "40px",
-        height: "40px",
-        margin: "4px",
-        borderRadius: "6px",
+        width: "45px",
+        height: "45px",
+        borderRadius: "8px",
         border: "1px solid #ccc",
         cursor: reserved ? "not-allowed" : "pointer",
+
         background: reserved
-          ? "#ccc"
+          ? "#ddd"        // зайняте
           : selected
-          ? "#aa3bff"
-          : "white",
-        color: selected ? "white" : "black"
+          ? "#ff9800"     // вибране
+          : "#3b82f6",    // вільне
+
+        color: "white"
       }}
     >
       {number}
