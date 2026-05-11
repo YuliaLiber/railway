@@ -23,11 +23,20 @@ export default function Booking() {
 
   function handleBook() {
 
-    saveBooking({
-      trainId,
-      wagon,
-      seat
-    });
+  const isTaken = bookings.some(
+    b => b.trainId === trainId && b.seat === seat
+  );
+
+  if (isTaken) {
+    alert("❌ This seat is already booked!");
+    return;
+  }
+
+  saveBooking({
+    trainId,
+    wagon,
+    seat
+  });
 
     const updated = getBookings();
     setBookings(updated);
