@@ -4,17 +4,20 @@ export default function BookingForm({ onSubmit }) {
 
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
+  const [email, setEmail] = useState("");
 
   function handleSubmit(e) {
     e.preventDefault();
 
     onSubmit({
       name,
-      phone
+      phone,
+      email
     });
 
     setName("");
     setPhone("");
+    setEmail("");
   }
 
   return (
@@ -33,6 +36,13 @@ export default function BookingForm({ onSubmit }) {
         placeholder="Phone"
         value={phone}
         onChange={(e) => setPhone(e.target.value)}
+        style={{ display: "block", marginBottom: "10px" }}
+      />
+
+      <input
+        placeholder="Email"
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
         style={{ display: "block", marginBottom: "10px" }}
       />
 
