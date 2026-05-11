@@ -48,14 +48,38 @@ export default function Booking() {
 
       <h3>Saved bookings:</h3>
 
-      {bookings.map((b, index) => (
-        <p key={index}>
-          Train: {b.trainId} |
-          Wagon: {b.wagon} |
-          Seat: {b.seat}
-        </p>
-      ))}
+      <div
+  style={{
+    marginTop: "20px",
+    display: "flex",
+    flexDirection: "column",
+    gap: "10px"
+  }}
+>
 
+  {bookings.map((b, index) => (
+    <div
+      key={index}
+      style={{
+        padding: "12px",
+        border: "1px solid #ddd",
+        borderRadius: "10px",
+        background: "#f8f8f8"
+      }}
+    >
+      🚆 Train: {b.trainId}
+
+      <br />
+
+      🚃 Wagon: {b.wagon}
+
+      <br />
+
+      🪑 Seat: {b.seat}
+    </div>
+  ))}
+
+</div>
     </div>
   );
 }
