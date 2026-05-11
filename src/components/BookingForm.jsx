@@ -3,15 +3,18 @@ import { useState } from "react";
 export default function BookingForm({ onSubmit }) {
 
   const [name, setName] = useState("");
+  const [phone, setPhone] = useState("");
 
   function handleSubmit(e) {
     e.preventDefault();
 
     onSubmit({
-      name
+      name,
+      phone
     });
 
     setName("");
+    setPhone("");
   }
 
   return (
@@ -23,12 +26,14 @@ export default function BookingForm({ onSubmit }) {
         placeholder="Name"
         value={name}
         onChange={(e) => setName(e.target.value)}
-        style={{
-          display: "block",
-          marginBottom: "10px",
-          padding: "8px",
-          width: "200px"
-        }}
+        style={{ display: "block", marginBottom: "10px" }}
+      />
+
+      <input
+        placeholder="Phone"
+        value={phone}
+        onChange={(e) => setPhone(e.target.value)}
+        style={{ display: "block", marginBottom: "10px" }}
       />
 
       <button type="submit">
