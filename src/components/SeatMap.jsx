@@ -2,9 +2,14 @@ import { useState } from "react";
 import Seat from "./Seat";
 import { getBookings } from "../services/bookingService";
 
-export default function SeatMap({ trainId, wagon }) {
+export default function SeatMap({
+  trainId,
+  wagon,
+  selectedSeat,
+  onSelectSeat
+}) {
 
-  const [selectedSeat, setSelectedSeat] = useState(null);
+  const [internalSeat, setInternalSeat] = useState(null);
 
   const seats = Array.from({ length: 20 }, (_, i) => i + 1);
 
@@ -15,7 +20,11 @@ export default function SeatMap({ trainId, wagon }) {
     .map(b => b.seat);
 
   function handleSelect(seatNumber) {
-    setSelectedSeat(seatNumber);
+    setInternalSeat(seatNumber);
+
+    if (onSelectSeat) {
+      onSelectSeat(seatNumber);
+    }
   }
 
   return (
@@ -34,7 +43,11 @@ export default function SeatMap({ trainId, wagon }) {
           <Seat
             key={seat}
             number={seat}
-            selected={selectedSeat === seat}
+            selected={
+              selectedSeat !== undefined
+                ? selectedSeat === seat
+                : internalSeat === seat
+            }
             reserved={reservedSeats.includes(seat)}
             onClick={handleSelect}
           />

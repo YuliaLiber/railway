@@ -2,46 +2,47 @@ import { useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 
 import WagonSelector from "../components/WagonSelector";
-
-import { saveBooking } from "../services/bookingService";
-import { getBookings } from "../services/bookingService";
-
 import SeatMap from "../components/SeatMap";
+
+import { saveBooking, getBookings } from "../services/bookingService";
 
 export default function Booking() {
 
   const { trainId } = useParams();
 
   const [wagon, setWagon] = useState(1);
-
-  const [seat, setSeat] = useState(1);
+  const [seat, setSeat] = useState(null);
 
   const [bookings, setBookings] = useState([]);
 
   useEffect(() => {
-    const data = getBookings();
-    setBookings(data);
+    setBookings(getBookings());
   }, []);
 
   function handleBook() {
 
-  const isTaken = bookings.some(
-    b => b.trainId === trainId && b.seat === seat
-  );
+    if (!seat) {
+      alert("❌ Please select a seat!");
+      return;
+    }
 
-  if (isTaken) {
-    alert("❌ This seat is already booked!");
-    return;
-  }
+    const isTaken = bookings.some(
+      b => b.trainId === trainId && b.wagon === wagon && b.seat === seat
+    );
 
-  saveBooking({
-    trainId,
-    wagon,
-    seat
-  });
+    if (isTaken) {
+      alert("❌ This seat is already booked!");
+      return;
+    }
 
-    const updated = getBookings();
-    setBookings(updated);
+    saveBooking({
+      trainId,
+      wagon,
+      seat
+    });
+
+    setBookings(getBookings());
+    setSeat(null);
   }
 
   return (
@@ -55,13 +56,17 @@ export default function Booking() {
 
       <h3>Selected wagon: {wagon}</h3>
 
-      <SeatMap trainId={trainId} wagon={wagon} />
+      <SeatMap
+        trainId={trainId}
+        wagon={wagon}
+        selectedSeat={seat}
+        onSelectSeat={setSeat}
+      />
 
-      <button onClick={() => setSeat(seat + 1)}>
-        Change seat ({seat})
-      </button>
-
-      <button onClick={handleBook}>
+      <button
+        style={{ marginTop: "10px" }}
+        onClick={handleBook}
+      >
         🎟 Book ticket
       </button>
 
