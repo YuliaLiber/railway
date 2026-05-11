@@ -17,13 +17,15 @@ export default function Booking() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-  setLoading(true);
+    setLoading(true);
 
-  const data = getBookings();
-  setBookings(data);
+    setTimeout(() => {
+      const data = getBookings();
+      setBookings(data);
+      setLoading(false);
+    }, 300);
 
-  setLoading(false);
-}, []);
+  }, []);
 
   function handleBook() {
 
@@ -51,9 +53,37 @@ export default function Booking() {
     setSeat(null);
   }
 
-if (loading) {
-  return <h2>⏳ Loading bookings...</h2>;
-}
+  if (loading) {
+    return <h2>⏳ Loading bookings...</h2>;
+  }
+
+  if (bookings.length === 0) {
+    return (
+      <div>
+        <h2>📭 No bookings yet</h2>
+        <p>Book your first ticket 🎟</p>
+
+        <WagonSelector onSelect={setWagon} />
+
+        <h3>Selected wagon: {wagon}</h3>
+
+        <SeatMap
+          trainId={trainId}
+          wagon={wagon}
+          selectedSeat={seat}
+          onSelectSeat={setSeat}
+        />
+
+        <button
+          style={{ marginTop: "10px" }}
+          onClick={handleBook}
+        >
+          🎟 Book ticket
+        </button>
+
+      </div>
+    );
+  }
 
   return (
     <div>
