@@ -14,10 +14,16 @@ export default function Booking() {
   const [seat, setSeat] = useState(null);
 
   const [bookings, setBookings] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    setBookings(getBookings());
-  }, []);
+  setLoading(true);
+
+  const data = getBookings();
+  setBookings(data);
+
+  setLoading(false);
+}, []);
 
   function handleBook() {
 
@@ -44,6 +50,10 @@ export default function Booking() {
     setBookings(getBookings());
     setSeat(null);
   }
+
+if (loading) {
+  return <h2>⏳ Loading bookings...</h2>;
+}
 
   return (
     <div>
