@@ -6,6 +6,8 @@ import WagonSelector from "../components/WagonSelector";
 import { saveBooking } from "../services/bookingService";
 import { getBookings } from "../services/bookingService";
 
+import SeatMap from "../components/SeatMap";
+
 export default function Booking() {
 
   const { trainId } = useParams();
@@ -52,6 +54,8 @@ export default function Booking() {
       <WagonSelector onSelect={setWagon} />
 
       <h3>Selected wagon: {wagon}</h3>
+
+      <SeatMap trainId={trainId} wagon={wagon} />
 
       <button onClick={() => setSeat(seat + 1)}>
         Change seat ({seat})
