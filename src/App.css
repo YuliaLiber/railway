@@ -184,17 +184,36 @@
 }
 
 .booking-page {
+  max-width: 900px;
+  margin: 0 auto;
   padding: 20px;
 }
 
+h1, h2, h3 {
+  text-align: center;
+}
+
 .book-button {
-  margin-top: 10px;
-  padding: 10px 16px;
+  width: 100%;
+  padding: 12px;
+  margin-top: 15px;
   border: none;
-  border-radius: 10px;
+  border-radius: 12px;
   background: #2563eb;
   color: white;
+  font-size: 16px;
   cursor: pointer;
+}
+
+.book-button:hover {
+  background: #1d4ed8;
+}
+
+.booking-card {
+  padding: 12px;
+  border-radius: 10px;
+  border: 1px solid #ddd;
+  background: #f8f8f8;
 }
 
 .bookings-list {
@@ -204,41 +223,25 @@
   gap: 10px;
 }
 
-.booking-card {
-  padding: 12px;
-  border: 1px solid #ddd;
-  border-radius: 10px;
-  background: #f8f8f8;
-}
-
-.error-text {
-  color: red;
-  margin-top: 10px;
-  font-weight: bold;
-}
-
 .modal-overlay {
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
+  inset: 0;
   background: rgba(0,0,0,0.5);
-
   display: flex;
   justify-content: center;
   align-items: center;
-
-  z-index: 1000;
 }
 
 .modal-window {
+  width: 90%;
+  max-width: 400px;
   background: white;
-  padding: 25px;
+  padding: 20px;
   border-radius: 16px;
-  width: 320px;
 }
 
 .close-button {
   margin-top: 10px;
+  width: 100%;
+  padding: 10px;
 }
