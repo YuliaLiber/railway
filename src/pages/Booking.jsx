@@ -5,6 +5,7 @@ import WagonSelector from "../components/WagonSelector";
 import SeatMap from "../components/SeatMap";
 
 import { saveBooking, getBookings } from "../services/bookingService";
+import BookingForm from "../components/BookingForm";
 
 export default function Booking() {
 
@@ -18,6 +19,9 @@ export default function Booking() {
 
   const [error, setError] = useState("");
 
+  const [showForm, setShowForm] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+
   useEffect(() => {
     setLoading(true);
 
@@ -29,7 +33,7 @@ export default function Booking() {
 
   }, []);
 
-  function handleBook() {
+  function handleFormSubmit(data) {
 
     if (!seat) {
       setError("❌ Please select a seat!");
@@ -37,7 +41,9 @@ export default function Booking() {
     }
 
     const isTaken = bookings.some(
-      b => b.trainId === trainId && b.wagon === wagon && b.seat === seat
+      b => b.trainId === trainId &&
+           b.wagon === wagon &&
+           b.seat === seat
     );
 
     if (isTaken) {
@@ -47,14 +53,28 @@ export default function Booking() {
 
     setError("");
 
-    saveBooking({
-      trainId,
-      wagon,
-      seat
-    });
+    setSubmitting(true);
 
-    setBookings(getBookings());
-    setSeat(null);
+    setTimeout(() => {
+
+      saveBooking({
+        trainId,
+        wagon,
+        seat,
+
+        name: data.name,
+        phone: data.phone,
+        email: data.email
+      });
+
+      setBookings(getBookings());
+
+      setSeat(null);
+
+      setSubmitting(false);
+      setShowForm(false);
+
+    }, 2000);
   }
 
   if (loading) {
@@ -63,8 +83,10 @@ export default function Booking() {
 
   if (bookings.length === 0) {
     return (
-      <div>
+      <div className="booking-page">
+
         <h2>📭 No bookings yet</h2>
+
         <p>Book your first ticket 🎟</p>
 
         <WagonSelector onSelect={setWagon} />
@@ -79,30 +101,49 @@ export default function Booking() {
         />
 
         {error && (
-          <p
-            style={{
-              color: "red",
-              marginTop: "10px",
-              fontWeight: "bold"
-            }}
-          >
+          <p className="error-text">
             {error}
           </p>
         )}
 
         <button
-          style={{ marginTop: "10px" }}
-          onClick={handleBook}
+          className="book-button"
+          onClick={() => setShowForm(true)}
         >
           🎟 Book ticket
         </button>
+
+        {showForm && (
+          <div className="modal-overlay">
+
+            <div className="modal-window">
+
+              <h2>🎟 Confirm booking</h2>
+
+              {submitting ? (
+                <h3>⏳ Booking...</h3>
+              ) : (
+                <BookingForm onSubmit={handleFormSubmit} />
+              )}
+
+              <button
+                className="close-button"
+                onClick={() => setShowForm(false)}
+              >
+                Close
+              </button>
+
+            </div>
+
+          </div>
+        )}
 
       </div>
     );
   }
 
   return (
-    <div>
+    <div className="booking-page">
 
       <h1>🎟 Booking Page</h1>
 
@@ -120,50 +161,68 @@ export default function Booking() {
       />
 
       {error && (
-        <p
-          style={{
-            color: "red",
-            marginTop: "10px",
-            fontWeight: "bold"
-          }}
-        >
+        <p className="error-text">
           {error}
         </p>
       )}
 
       <button
-        style={{ marginTop: "10px" }}
-        onClick={handleBook}
+        className="book-button"
+        onClick={() => setShowForm(true)}
       >
         🎟 Book ticket
       </button>
 
+      {showForm && (
+        <div className="modal-overlay">
+
+          <div className="modal-window">
+
+            <h2>🎟 Confirm booking</h2>
+
+            {submitting ? (
+              <h3>⏳ Booking...</h3>
+            ) : (
+              <BookingForm onSubmit={handleFormSubmit} />
+            )}
+
+            <button
+              className="close-button"
+              onClick={() => setShowForm(false)}
+            >
+              Close
+            </button>
+
+          </div>
+
+        </div>
+      )}
+
       <h3>Saved bookings:</h3>
 
-      <div
-        style={{
-          marginTop: "20px",
-          display: "flex",
-          flexDirection: "column",
-          gap: "10px"
-        }}
-      >
+      <div className="bookings-list">
 
         {bookings.map((b, index) => (
           <div
             key={index}
-            style={{
-              padding: "12px",
-              border: "1px solid #ddd",
-              borderRadius: "10px",
-              background: "#f8f8f8"
-            }}
+            className="booking-card"
           >
             🚆 Train: {b.trainId}
             <br />
+
             🚃 Wagon: {b.wagon}
             <br />
+
             🪑 Seat: {b.seat}
+            <br />
+
+            👤 {b.name}
+            <br />
+
+            📞 {b.phone}
+            <br />
+
+            📧 {b.email}
           </div>
         ))}
 
