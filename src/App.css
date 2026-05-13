@@ -245,3 +245,51 @@ h1, h2, h3 {
   width: 100%;
   padding: 10px;
 }
+.seat-map {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.row {
+  display: flex;
+  gap: 6px;
+  justify-content: center;
+  margin-bottom: 8px;
+}
+
+.aisle {
+  margin: 10px 0;
+  font-size: 18px;
+  opacity: 0.6;
+}
+
+/* 🔥 РЯД КІМНАТ */
+.rooms-row {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+}
+
+/* 🚪 кімната */
+.room {
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+}
+
+/* 🟦 купе 2x2 */
+.grid-2x2 {
+  display: grid;
+  grid-template-columns: repeat(2, 45px);
+  grid-template-rows: repeat(2, 45px);
+  gap: 6px;
+}
+
+/* 💎 VIP 1x2 */
+.grid-1x2 {
+  display: grid;
+  grid-template-columns: repeat(2, 45px);
+  gap: 6px;
+}
