@@ -6,14 +6,14 @@ import SeatMap from "../components/SeatMap";
 
 import { saveBooking, getBookings } from "../services/bookingService";
 import BookingForm from "../components/BookingForm";
-
+import { toast } from "react-toastify";
 
 export default function Booking() {
 
   const { trainId } = useParams();
 
   const [wagon, setWagon] = useState(1);
-  const [seat, setSeat] = useState(null);
+  const [seats, setSeats] = useState([]);
 
   const [bookings, setBookings] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -34,21 +34,44 @@ export default function Booking() {
 
   }, []);
 
+  function handleSelectSeat(seatNumber) {
+
+    setSeats(prev => {
+
+      if (prev.includes(seatNumber)) {
+        return prev.filter(s => s !== seatNumber);
+      }
+
+      return [...prev, seatNumber];
+    });
+  }
+
+  function openForm() {
+    if (seats.length === 0) {
+      setError("❌ Please select seats!");
+      return;
+    }
+
+    setError("");
+    setShowForm(true);
+  }
+
   function handleFormSubmit(data) {
 
-    if (!seat) {
-      setError("❌ Please select a seat!");
+    if (seats.length === 0) {
+      setError("❌ Please select seats!");
       return;
     }
 
     const isTaken = bookings.some(
-      b => b.trainId === trainId &&
-           b.wagon === wagon &&
-           b.seat === seat
+      b =>
+        b.trainId === trainId &&
+        b.wagon === wagon &&
+        seats.includes(b.seat)
     );
 
     if (isTaken) {
-      setError("❌ This seat is already booked!");
+      setError("❌ Some seats are already booked!");
       return;
     }
 
@@ -57,18 +80,20 @@ export default function Booking() {
 
     setTimeout(() => {
 
-      saveBooking({
-        trainId,
-        wagon,
-        seat,
-        name: data.name,
-        phone: data.phone,
-        email: data.email
+      seats.forEach(seat => {
+        saveBooking({
+          trainId,
+          wagon,
+          seat,
+          name: data.name,
+          phone: data.phone,
+          email: data.email
+        });
       });
-
+      toast.success("🎟 Booking successful!");
       setBookings(getBookings());
 
-      setSeat(null);
+      setSeats([]);
       setSubmitting(false);
       setShowForm(false);
 
@@ -93,8 +118,8 @@ export default function Booking() {
       <SeatMap
         trainId={trainId}
         wagon={wagon}
-        selectedSeat={seat}
-        onSelectSeat={setSeat}
+        selectedSeats={seats}
+        onSelectSeat={handleSelectSeat}
       />
 
       {error && (
@@ -105,15 +130,9 @@ export default function Booking() {
 
       <button
         className="book-button"
-        onClick={() => {
-          if (!seat) {
-            setError("❌ Please select a seat!");
-            return;
-          }
-          setShowForm(true);
-        }}
+        onClick={openForm}
       >
-        🎟 Book ticket
+        🎟 Book ticket ({seats.length})
       </button>
 
       {showForm && (
@@ -122,6 +141,8 @@ export default function Booking() {
           <div className="modal-window">
 
             <h2>🎟 Confirm booking</h2>
+
+            <p>Selected seats: {seats.join(", ")}</p>
 
             {submitting ? (
               <h3>⏳ Booking...</h3>
@@ -146,21 +167,25 @@ export default function Booking() {
       <div className="bookings-list">
 
         {bookings.map((b, index) => (
-          <div
-            key={index}
-            className="booking-card"
-          >
+          <div key={index} className="booking-card">
+
             🚆 Train: {b.trainId}
             <br />
+
             🚃 Wagon: {b.wagon}
             <br />
+
             🪑 Seat: {b.seat}
             <br />
+
             👤 {b.name}
             <br />
+
             📞 {b.phone}
             <br />
+
             📧 {b.email}
+
           </div>
         ))}
 

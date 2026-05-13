@@ -4,7 +4,7 @@ import { getBookings } from "../services/bookingService";
 export default function SeatMap({
   trainId,
   wagon,
-  selectedSeat,
+  selectedSeats,
   onSelectSeat
 }) {
 
@@ -30,7 +30,7 @@ export default function SeatMap({
           <Seat
             key={seat}
             number={seat}
-            selected={selectedSeat === seat}
+            selected={selectedSeats.includes(seat)}
             reserved={reservedSeats.includes(seat)}
             onClick={handleSelect}
           />
@@ -42,7 +42,7 @@ export default function SeatMap({
           <Seat
             key={seat}
             number={seat}
-            selected={selectedSeat === seat}
+            selected={selectedSeats.includes(seat)}
             reserved={reservedSeats.includes(seat)}
             onClick={handleSelect}
           />
@@ -56,7 +56,7 @@ export default function SeatMap({
           <Seat
             key={seat}
             number={seat}
-            selected={selectedSeat === seat}
+            selected={selectedSeats.includes(seat)}
             reserved={reservedSeats.includes(seat)}
             onClick={handleSelect}
           />
@@ -80,7 +80,7 @@ export default function SeatMap({
             <Seat
               key={seat}
               number={seat}
-              selected={selectedSeat === seat}
+              selected={selectedSeats.includes(seat)}
               reserved={reservedSeats.includes(seat)}
               onClick={handleSelect}
             />
@@ -105,7 +105,7 @@ export default function SeatMap({
             <Seat
               key={seat}
               number={seat}
-              selected={selectedSeat === seat}
+              selected={selectedSeats.includes(seat)}
               reserved={reservedSeats.includes(seat)}
               onClick={handleSelect}
             />
