@@ -105,14 +105,17 @@ export default function Booking() {
   }
 
   return (
-    <div className="booking-page">
+  <div className="booking-page">
 
-      <h1>🎟 Booking Page</h1>
+    <h1>🎟 Booking Page</h1>
 
-      <p>Train ID: {trainId}</p>
+    <p>Train ID: {trainId}</p>
 
+    <div className="card">
       <WagonSelector onSelect={setWagon} />
+    </div>
 
+    <div className="card">
       <h3>Selected wagon: {wagon}</h3>
 
       <SeatMap
@@ -127,40 +130,43 @@ export default function Booking() {
           {error}
         </p>
       )}
+    </div>
 
+    <div className="card">
       <button
         className="book-button"
         onClick={openForm}
       >
         🎟 Book ticket ({seats.length})
       </button>
+    </div>
+    
+    {showForm && (
+      <div className="modal-overlay">
 
-      {showForm && (
-        <div className="modal-overlay">
+        <div className="modal-window">
 
-          <div className="modal-window">
+          <h2>🎟 Confirm booking</h2>
 
-            <h2>🎟 Confirm booking</h2>
+          <p>Selected seats: {seats.join(", ")}</p>
 
-            <p>Selected seats: {seats.join(", ")}</p>
+          {submitting ? (
+            <h3>⏳ Booking...</h3>
+          ) : (
+            <BookingForm onSubmit={handleFormSubmit} />
+          )}
 
-            {submitting ? (
-              <h3>⏳ Booking...</h3>
-            ) : (
-              <BookingForm onSubmit={handleFormSubmit} />
-            )}
-
-            <button
-              className="close-button"
-              onClick={() => setShowForm(false)}
-            >
-              Close
-            </button>
-
-          </div>
+          <button
+            className="close-button"
+            onClick={() => setShowForm(false)}
+          >
+            Close
+          </button>
 
         </div>
-      )}
+
+      </div>
+    )}
 
       <h3>Saved bookings:</h3>
 

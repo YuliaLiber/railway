@@ -10,13 +10,11 @@ function App() {
   return (
     <BrowserRouter>
 
+      <ToastContainer />
+
       <Routes>
         <Route path="/" element={<Home />} />
-
-        <Route
-          path="/booking/:trainId"
-          element={<Booking />}
-        />
+        <Route path="/booking/:trainId" element={<Booking />} />
       </Routes>
 
     </BrowserRouter>
