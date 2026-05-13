@@ -16,6 +16,8 @@ export default function Booking() {
   const [bookings, setBookings] = useState([]);
   const [loading, setLoading] = useState(true);
 
+  const [error, setError] = useState("");
+
   useEffect(() => {
     setLoading(true);
 
@@ -30,7 +32,7 @@ export default function Booking() {
   function handleBook() {
 
     if (!seat) {
-      alert("❌ Please select a seat!");
+      setError("❌ Please select a seat!");
       return;
     }
 
@@ -39,9 +41,11 @@ export default function Booking() {
     );
 
     if (isTaken) {
-      alert("❌ This seat is already booked!");
+      setError("❌ This seat is already booked!");
       return;
     }
+
+    setError("");
 
     saveBooking({
       trainId,
@@ -74,6 +78,18 @@ export default function Booking() {
           onSelectSeat={setSeat}
         />
 
+        {error && (
+          <p
+            style={{
+              color: "red",
+              marginTop: "10px",
+              fontWeight: "bold"
+            }}
+          >
+            {error}
+          </p>
+        )}
+
         <button
           style={{ marginTop: "10px" }}
           onClick={handleBook}
@@ -102,6 +118,18 @@ export default function Booking() {
         selectedSeat={seat}
         onSelectSeat={setSeat}
       />
+
+      {error && (
+        <p
+          style={{
+            color: "red",
+            marginTop: "10px",
+            fontWeight: "bold"
+          }}
+        >
+          {error}
+        </p>
+      )}
 
       <button
         style={{ marginTop: "10px" }}
