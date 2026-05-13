@@ -265,21 +265,18 @@ h1, h2, h3 {
   opacity: 0.6;
 }
 
-/* 🔥 РЯД КІМНАТ */
 .rooms-row {
   display: flex;
   gap: 10px;
   justify-content: center;
 }
 
-/* 🚪 кімната */
 .room {
   padding: 8px;
   border: 1px solid #ddd;
   border-radius: 10px;
 }
 
-/* 🟦 купе 2x2 */
 .grid-2x2 {
   display: grid;
   grid-template-columns: repeat(2, 45px);
@@ -287,7 +284,6 @@ h1, h2, h3 {
   gap: 6px;
 }
 
-/* 💎 VIP 1x2 */
 .grid-1x2 {
   display: grid;
   grid-template-columns: repeat(2, 45px);

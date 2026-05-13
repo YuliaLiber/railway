@@ -7,6 +7,7 @@ import SeatMap from "../components/SeatMap";
 import { saveBooking, getBookings } from "../services/bookingService";
 import BookingForm from "../components/BookingForm";
 
+
 export default function Booking() {
 
   const { trainId } = useParams();
@@ -52,7 +53,6 @@ export default function Booking() {
     }
 
     setError("");
-
     setSubmitting(true);
 
     setTimeout(() => {
@@ -61,7 +61,6 @@ export default function Booking() {
         trainId,
         wagon,
         seat,
-
         name: data.name,
         phone: data.phone,
         email: data.email
@@ -70,7 +69,6 @@ export default function Booking() {
       setBookings(getBookings());
 
       setSeat(null);
-
       setSubmitting(false);
       setShowForm(false);
 
@@ -79,67 +77,6 @@ export default function Booking() {
 
   if (loading) {
     return <h2>⏳ Loading bookings...</h2>;
-  }
-
-  if (bookings.length === 0) {
-    return (
-      <div className="booking-page">
-
-        <h2>📭 No bookings yet</h2>
-
-        <p>Book your first ticket 🎟</p>
-
-        <WagonSelector onSelect={setWagon} />
-
-        <h3>Selected wagon: {wagon}</h3>
-
-        <SeatMap
-          trainId={trainId}
-          wagon={wagon}
-          selectedSeat={seat}
-          onSelectSeat={setSeat}
-        />
-
-        {error && (
-          <p className="error-text">
-            {error}
-          </p>
-        )}
-
-        <button
-          className="book-button"
-          onClick={() => setShowForm(true)}
-        >
-          🎟 Book ticket
-        </button>
-
-        {showForm && (
-          <div className="modal-overlay">
-
-            <div className="modal-window">
-
-              <h2>🎟 Confirm booking</h2>
-
-              {submitting ? (
-                <h3>⏳ Booking...</h3>
-              ) : (
-                <BookingForm onSubmit={handleFormSubmit} />
-              )}
-
-              <button
-                className="close-button"
-                onClick={() => setShowForm(false)}
-              >
-                Close
-              </button>
-
-            </div>
-
-          </div>
-        )}
-
-      </div>
-    );
   }
 
   return (
@@ -168,7 +105,13 @@ export default function Booking() {
 
       <button
         className="book-button"
-        onClick={() => setShowForm(true)}
+        onClick={() => {
+          if (!seat) {
+            setError("❌ Please select a seat!");
+            return;
+          }
+          setShowForm(true);
+        }}
       >
         🎟 Book ticket
       </button>
@@ -209,19 +152,14 @@ export default function Booking() {
           >
             🚆 Train: {b.trainId}
             <br />
-
             🚃 Wagon: {b.wagon}
             <br />
-
             🪑 Seat: {b.seat}
             <br />
-
             👤 {b.name}
             <br />
-
             📞 {b.phone}
             <br />
-
             📧 {b.email}
           </div>
         ))}

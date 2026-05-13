@@ -1,10 +1,12 @@
-import { useState } from "react";
 import Seat from "./Seat";
 import { getBookings } from "../services/bookingService";
 
-export default function SeatMap({ trainId, wagon }) {
-
-  const [selectedSeat, setSelectedSeat] = useState(null);
+export default function SeatMap({
+  trainId,
+  wagon,
+  selectedSeat,
+  onSelectSeat
+}) {
 
   const bookings = getBookings();
 
@@ -12,9 +14,9 @@ export default function SeatMap({ trainId, wagon }) {
     .filter(b => b.trainId === trainId && b.wagon === wagon)
     .map(b => b.seat);
 
-  function handleSelect(seat) {
-    setSelectedSeat(seat);
-  }
+  const handleSelect = (seat) => {
+    onSelectSeat(seat);
+  };
 
   const top1 = Array.from({ length: 14 }, (_, i) => i + 1);
   const top2 = Array.from({ length: 14 }, (_, i) => i + 15);
@@ -25,7 +27,9 @@ export default function SeatMap({ trainId, wagon }) {
 
       <div className="row">
         {top1.map(seat => (
-          <Seat key={seat} number={seat}
+          <Seat
+            key={seat}
+            number={seat}
             selected={selectedSeat === seat}
             reserved={reservedSeats.includes(seat)}
             onClick={handleSelect}
@@ -35,7 +39,9 @@ export default function SeatMap({ trainId, wagon }) {
 
       <div className="row">
         {top2.map(seat => (
-          <Seat key={seat} number={seat}
+          <Seat
+            key={seat}
+            number={seat}
             selected={selectedSeat === seat}
             reserved={reservedSeats.includes(seat)}
             onClick={handleSelect}
@@ -47,7 +53,9 @@ export default function SeatMap({ trainId, wagon }) {
 
       <div className="row">
         {bottom.map(seat => (
-          <Seat key={seat} number={seat}
+          <Seat
+            key={seat}
+            number={seat}
             selected={selectedSeat === seat}
             reserved={reservedSeats.includes(seat)}
             onClick={handleSelect}
@@ -57,12 +65,10 @@ export default function SeatMap({ trainId, wagon }) {
 
     </div>
   );
+
   const kupeRooms = Array.from({ length: 5 }, (_, i) => {
     const base = i * 4 + 1;
-    return [
-      base, base + 1,
-      base + 2, base + 3
-    ];
+    return [base, base + 1, base + 2, base + 3];
   });
 
   const renderKupe = () => (
@@ -112,7 +118,6 @@ export default function SeatMap({ trainId, wagon }) {
 
   return (
     <div>
-
       <h3>🚆 Wagon {wagon}</h3>
 
       {wagon <= 3
@@ -121,7 +126,6 @@ export default function SeatMap({ trainId, wagon }) {
         ? renderKupe()
         : renderVIP()
       }
-
     </div>
   );
 }
